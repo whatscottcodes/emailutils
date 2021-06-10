@@ -199,8 +199,8 @@ class emailUtils:
         else:
             mail.Body = "Message body"
     
-        if html_body is not None:
-            mail.HTMLBody = html_body
+        if htmlBody is not None:
+            mail.HTMLBody = htmlBody
 
         for attachmentPath in attachmentPaths:
             mail.Attachments.Add(attachmentPath)
