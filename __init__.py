@@ -1,1 +1,1 @@
-from . import *
+from email_utils.emailutils.utils import emailUtils
