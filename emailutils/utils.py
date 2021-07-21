@@ -60,7 +60,7 @@ class emailUtils:
         returns filePaths: file paths of downloaded extracts
         """
         
-        fileEmails = get_subfolder(subFolder)
+        fileEmails = self.get_subfolder(subFolder)
         
         subFolderMessages = fileEmails.Items
         filePaths = []
@@ -106,7 +106,7 @@ class emailUtils:
         
         returns emailSubjects: list of email subjects matching/containing subj
         """
-        fileEmails = get_subfolder(subFolder)
+        fileEmails = self.get_subfolder(subFolder)
         
         subFolderMessages = fileEmails.Items
         emailSubjects = []
@@ -140,7 +140,7 @@ class emailUtils:
         
         returns emailBodies: list of email bodies from emails with a subject matching/containing subj
         """
-        fileEmails = get_subfolder(subFolder)
+        fileEmails = self.get_subfolder(subFolder)
         
         subFolderMessages = fileEmails.Items
         emailBodies = []
