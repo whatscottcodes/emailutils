@@ -1,5 +1,6 @@
 import win32com.client
 from datetime import datetime
+import os
 
 class emailUtils:
     """
@@ -46,7 +47,7 @@ class emailUtils:
             if str(folder) == subFolder:
                 return folder
             
-    def download_files(self, subj, subFolder, savePath, dateMatch = None, only_dl_date_match = False):
+    def download_files(self, subj, subFolder, savePath, dateMatch = None, only_dl_today = False):
         """
         Downloaded attachment from file with matching subject.
         
@@ -64,31 +65,35 @@ class emailUtils:
         
         subFolderMessages = fileEmails.Items
         filePaths = []
-
+        
+        if dateMatch is None:
+            dateMatch = datetime.today().strftime("%y-%m-%d")
+        else:
+            dateMatch = dateMatch.strftime("%y-%m-%d")
+            
         for i in range(0, len(subFolderMessages)):
+            
             subject = str(subFolderMessages[i])
-            email_date = subFolderMessages[i].SentOn.strftime("%Y-%M-%D")
-            if only_dl_date_match:
-                if dateMatch is None:
-                    dateMatch = datetime.today().strftime("%Y-%M-%D")
+            email_date = subFolderMessages[i].SentOn.strftime("%y-%m-%d")
+            if only_dl_today:
                 if (subj in subject) & (email_date == dateMatch):
                     message = subFolderMessages[i]
                 else:
-                    pass
+                    message = None
+                    continue
             else:
                 if subj in subject:
                     message = subFolderMessages[i]
                 else:
-                    pass
-            
+                    message = None
+                    continue
+
             subFolderItemAttachments = message.Attachments
             nbrOfAttachmentInMessage = subFolderItemAttachments.Count
             
             for i in range(1, nbrOfAttachmentInMessage+1):
                 attachment = subFolderItemAttachments.item(i)
-                
-                pathToFile = os.path.join(savePath, str(attachment))
-
+                pathToFile = os.path.join(os.getcwd(), savePath, str(attachment))
                 attachment.SaveAsFile(pathToFile)
                 filePaths.append(pathToFile)
 
@@ -110,22 +115,25 @@ class emailUtils:
         
         subFolderMessages = fileEmails.Items
         emailSubjects = []
-
+        
+        if dateMatch is None:
+            dateMatch = datetime.today().strftime("%y-%m-%d")
+        else:
+            dateMatch = dateMatch.strftime("%y-%m-%d")
+            
         for i in range(0, len(subFolderMessages)):
             subject = str(subFolderMessages[i])
-            email_date = subFolderMessages[i].SentOn.strftime("%Y-%M-%D")
-            if only_dl_date_match:
-                if dateMatch is None:
-                    dateMatch = datetime.today().strftime("%Y-%M-%D")
+            email_date = subFolderMessages[i].SentOn.strftime("%y-%m-%d")
+            if only_dl_today:
                 if (subj in subject) & (email_date == dateMatch):
                     emailSubjects.append(subject)
                 else:
-                    pass
+                    continue
             else:
                 if subj in subject:
                     emailSubjects.append(subject)
                 else:
-                    pass
+                    continue
         return emailSubjects
     
     def get_email_bodies(self, subj, subFolder, dateMatch = None, only_dl_today = False):
@@ -145,21 +153,24 @@ class emailUtils:
         subFolderMessages = fileEmails.Items
         emailBodies = []
 
+        if dateMatch is None:
+            dateMatch = datetime.today().strftime("%y-%m-%d")
+        else:
+            dateMatch = dateMatch.strftime("%y-%m-%d")
+            
         for i in range(0, len(subFolderMessages)):
             subject = str(subFolderMessages[i])
-            email_date = subFolderMessages[i].SentOn.strftime("%Y-%M-%D")
-            if only_dl_date_match:
-                if dateMatch is None:
-                    dateMatch = datetime.today().strftime("%Y-%M-%D")
+            email_date = subFolderMessages[i].SentOn.strftime("%y-%m-%d")
+            if only_dl_today:
                 if (subj in subject) & (email_date == dateMatch):
                     message = subFolderMessages[i]
                 else:
-                    pass
+                    continue
             else:
                 if subj in subject:
                     message = subFolderMessages[i]
                 else:
-                    pass
+                    continue
             emailBodies.append(message.body)            
             
         return emailBodies
