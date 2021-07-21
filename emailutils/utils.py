@@ -39,11 +39,14 @@ class emailUtils:
         
         Helpful to create folder in the inbox and use rules to bin the emails you'll be looking to pull attachments from.
         """
+        if subFolder is None:
+            return self.inbox
+
         for folder in self.inbox.Folders:
             if str(folder) == subFolder:
                 return folder
             
-    def download_files(self, subj, savePath, dateMatch = None, only_dl_date_match = False):
+    def download_files(self, subj, subFolder, savePath, dateMatch = None, only_dl_date_match = False):
         """
         Downloaded attachment from file with matching subject.
         
@@ -57,7 +60,7 @@ class emailUtils:
         returns filePaths: file paths of downloaded extracts
         """
         
-        fileEmails = get_subfolder(self.inbox)
+        fileEmails = get_subfolder(subFolder)
         
         subFolderMessages = fileEmails.Items
         filePaths = []
@@ -91,7 +94,7 @@ class emailUtils:
 
         return filePaths
 
-    def get_matching_subjects(self, subj, dateMatch = None, only_dl_today = False):
+    def get_matching_subjects(self, subj, subFolder, dateMatch = None, only_dl_today = False):
         """
         Downloaded attachment from file with matching subject.
         
@@ -103,7 +106,7 @@ class emailUtils:
         
         returns emailSubjects: list of email subjects matching/containing subj
         """
-        fileEmails = get_subfolder(self.inbox)
+        fileEmails = get_subfolder(subFolder)
         
         subFolderMessages = fileEmails.Items
         emailSubjects = []
@@ -125,7 +128,7 @@ class emailUtils:
                     pass
         return emailSubjects
     
-    def get_email_bodies(self, subj, dateMatch = None, only_dl_today = False):
+    def get_email_bodies(self, subj, subFolder, dateMatch = None, only_dl_today = False):
         """
         Downloaded attachment from file with matching subject.
         
@@ -137,7 +140,7 @@ class emailUtils:
         
         returns emailBodies: list of email bodies from emails with a subject matching/containing subj
         """
-        fileEmails = get_subfolder(self.inbox)
+        fileEmails = get_subfolder(subFolder)
         
         subFolderMessages = fileEmails.Items
         emailBodies = []
