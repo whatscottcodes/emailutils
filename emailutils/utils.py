@@ -197,7 +197,7 @@ class emailUtils:
             mail.To = ";".join(mailToList)
         
         if sendFrom is not None:
-            mail.SentOnBehalfOfName = di.mailFrom
+            mail.SentOnBehalfOfName = sendFrom
         
         if ccList is not None:
             mail.CC = ";".join(ccList)        
