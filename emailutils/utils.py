@@ -221,7 +221,7 @@ class emailUtils:
     
         mail.Send()
 
-    def format_table(df, colFormats, headerFill = "#cc0000", headerFontColor = "#ffffff"):
+    def format_table(self, df, colFormats, headerFill = "#cc0000", headerFontColor = "#ffffff"):
         """
         Creates HTML tables of pandas dataframe for inclusion in emails.
 
